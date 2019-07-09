@@ -12,10 +12,10 @@ func main() {
 	var fields []string
 	_, err := tushare.Daily(params, fields)
 	if err != nil {
-	ast.Equal(err.Error(), "Need one argument ts_code or trade_date")
+		ast.Equal(err.Error(), "Need one argument ts_code or trade_date")
 	}
 
-	params["trade_date"] = "20181101"
+	params["trade_date"] = "20190708"
 	resp, err := tushare.Daily(params, fields)
 
 	if err != nil {
@@ -27,10 +27,10 @@ func main() {
 	resp.r2j
 }
 
-func (r *APIResponse) r2j() (string, error){
-   d = r.Data
-   i = d.Items
-   f = d.Fields
-   fmt.Printf (i)
-   fmt.Printf (f)
+func (r *APIResponse) r2j() (string, error) {
+	d = r.Data
+	i = d.Items
+	f = d.Fields
+	fmt.Printf(i)
+	fmt.Printf(f)
 }
