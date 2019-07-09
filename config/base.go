@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -28,6 +29,7 @@ func initDB() {
 	//	dbConn.Model(&model.Order{}).AddForeignKey("user_id", "users(user_id)", "CASCADE", "CASCADE")
 }
 
+//
 func GetDB() *gorm.DB { return dbConn }
 func init() {
 	initDB()
