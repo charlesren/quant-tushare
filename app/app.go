@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"quant/config"
+	"quant-tushare/config"
+	"quant-tushare/tushare"
 )
 
 func main() {
