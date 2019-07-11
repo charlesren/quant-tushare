@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"quant-tushare/src/config"
-	tushare "quant-tushare/src/tushare"
+	"quant-tushare/src/tushare"
 )
 
 func main() {
