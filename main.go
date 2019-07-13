@@ -9,13 +9,16 @@ import (
 func main() {
 	dbconn := config.GetDB()
 	fmt.Print(dbconn)
+	api := tushare.New("ejlkjlkjljlkjklj;j;j;j;j;asdfafasfals")
 	params := make(map[string]string)
-	//	params["trade_date"] = "20190708"
+	//params["trade_date"] = "20190708"
+	params["ts_code"] = "000002.SZ"
+	params["start_date"] = "20190707"
+	params["end_date"] = "20190708"
 	var fields []string
-	var api *tushare.TuShare
 	resp, err := api.Daily(params, fields)
 	if err != nil {
 		err.Error()
 	}
-	fmt.Print(resp)
+	fmt.Println(resp)
 }
