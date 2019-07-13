@@ -1,14 +1,14 @@
 {
 	"platform" : "postgres",
-	"host" : "localhost",
+	"host" : "127.0.0.1",
 	"dbport" : 5433,
 	"username" : "postgres",
 	"password" : "postgres",
 	"dbname" : "postgres",
 	"sslmode" : "disable",
 	"bindport" : 8080,
-  "maxidleconns" : "2",
-	"maxopenconns" : "100",
-	"connmaxlifetime" : "0",
+  "maxidleconns" : 2,
+	"maxopenconns" : 100,
+	"connmaxlifetime" : 0,
 	"charset" : "utf8"
 }
