@@ -7,7 +7,7 @@
 	"dbname" : "postgres",
 	"sslmode" : "disable",
 	"bindport" : 8080,
-  "maxidleconns" : 2,
+    "maxidleconns" : 2,
 	"maxopenconns" : 100,
 	"connmaxlifetime" : 0,
 	"charset" : "utf8"
