@@ -43,8 +43,8 @@ func initDB() {
 	}
 
 	//    if config.ServerConfig.Env == DevelopmentMode { DB.LogMode(true) }
-	//dbConn.DB().SetMaxIdleConns(DBConfig.MaxIdleConns)
-	//dbConn.DB().SetMaxOpenConns(DBConfig.MaxOpenConns)
+	dbConn.DB().SetMaxIdleConns(DBConfig.MaxIdleConns)
+	dbConn.DB().SetMaxOpenConns(DBConfig.MaxOpenConns)
 	//user singular table in case y change to ies
 	dbConn.SingularTable(true)
 	//dbConn.AutoMigrate(&model.Daily{}, &model.Weekly{})
