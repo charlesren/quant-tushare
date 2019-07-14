@@ -10,7 +10,7 @@ import (
 func main() {
 	db := config.GetDB()
 	defer db.Close()
-	api := tushare.New("jljlj;ljl;jl;jl;j;j;j;klj")
+	api := tushare.New("jlkjljl;j;ja;sfja;jl;j;j;")
 	params := make(map[string]string)
 	//params["trade_date"] = "20190708"
 	params["ts_code"] = "000002.SZ"
@@ -23,7 +23,10 @@ func main() {
 	}
 	fmt.Println(resp.Data)
 	fmt.Println(resp.Data.Items)
+	fmt.Println(resp.Data.Items[0])
+	fmt.Println(resp.Data.Items[0][0])
 	fmt.Println(resp.Data.Fields)
+	fmt.Println(resp.Data.Fields[0])
 	var daily model.Daily
 	daily.TsCode = "000002.SZ"
 	daily.TradeDate = "20190708"
