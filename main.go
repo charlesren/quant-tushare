@@ -8,8 +8,8 @@ import (
 
 func main() {
 	dbconn := config.GetDB()
-	fmt.Print(dbconn)
-	api := tushare.New("ejlkjlkjljlkjklj;j;j;j;j;asdfafasfals")
+	defer dbconn.Close()
+	api := tushare.New("jklj;lj;j;j;jkl;j;jj")
 	params := make(map[string]string)
 	//params["trade_date"] = "20190708"
 	params["ts_code"] = "000002.SZ"
