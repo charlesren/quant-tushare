@@ -36,7 +36,7 @@ func initDB() {
 		return
 	}
 	dbUri := fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s sslmode=%s ", DBConfig.Host, DBConfig.DbPort, DBConfig.Dbname, DBConfig.Username, DBConfig.Password, DBConfig.Sslmode)
-	fmt.Println("Connecting: " + dbUri)
+	//fmt.Println("Connecting: " + dbUri)
 	dbConn, err = gorm.Open(DBConfig.Platform, dbUri)
 	if err != nil {
 		panic(err)
