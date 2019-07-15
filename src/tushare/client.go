@@ -107,3 +107,20 @@ func (api *TuShare) postData(body map[string]interface{}) (*APIResponse, error) 
 	}
 	return resp, nil
 }
+
+// ParsingData  parsing tushare response to gorm form data
+func (resp *APIResponse) ParsingData() []map[string]interface{} {
+	items := resp.Data.Items
+	fields := resp.Data.Fields
+	type data []map[string]interface{}
+	var dbdata data
+	for _, value := range items {
+		iterData := make(map[string]interface{})
+		for i := 0; i < len(fields); i++ {
+			iterData[fields[i]] = value[i]
+		}
+		dbdata = append(dbdata, iterData)
+	}
+	fmt.Println(dbdata)
+	return dbdata
+}
