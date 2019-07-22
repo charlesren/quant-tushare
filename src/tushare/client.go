@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"mime"
 	"net/http"
 )
@@ -59,11 +58,8 @@ func (api *TuShare) doRequest(req *http.Request) (*APIResponse, error) {
 	}
 	defer resp.Body.Close()
 
-	// Read request
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
+	var jsonData *APIResponse
+	err = json.NewDecoder(resp.Body).Decode(&jsonData)
 
 	// Check mime type of response
 	mimeType, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
@@ -72,14 +68,6 @@ func (api *TuShare) doRequest(req *http.Request) (*APIResponse, error) {
 	}
 	if mimeType != "application/json" {
 		return nil, fmt.Errorf("Could not execute request (%s)", fmt.Sprintf("Response Content-Type is '%s', but should be 'application/json'.", mimeType))
-	}
-
-	// Parse Request
-	var jsonData *APIResponse
-
-	err = json.Unmarshal(body, &jsonData)
-	if err != nil {
-		return nil, err
 	}
 
 	// @TODO: handle API exception
@@ -108,19 +96,21 @@ func (api *TuShare) postData(body map[string]interface{}) (*APIResponse, error) 
 	return resp, nil
 }
 
+/*
 // ParsingData  parsing tushare response to gorm form data
-func (resp *APIResponse) ParsingData() []map[string]interface{} {
+func (resp *APIResponse) ParsingData() []Daily {
 	items := resp.Data.Items
 	fields := resp.Data.Fields
-	type data []map[string]interface{}
-	var dbdata data
+	var dbdata []Daily
 	for _, value := range items {
-		iterData := make(map[string]interface{})
+		iterData := Daily{}
 		for i := 0; i < len(fields); i++ {
-			iterData[fields[i]] = value[i]
+			iterData.TsCode = value[i]
+			//          iterData.fields[i] = value[i]
 		}
 		dbdata = append(dbdata, iterData)
 	}
 	fmt.Println(dbdata)
 	return dbdata
 }
+*/

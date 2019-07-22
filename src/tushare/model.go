@@ -1,4 +1,4 @@
-package model
+package tushare
 
 import (
 	"github.com/jinzhu/gorm"
