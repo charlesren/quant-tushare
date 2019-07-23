@@ -6,8 +6,13 @@ import (
 )
 
 func main() {
+<<<<<<< Updated upstream
 	//db := config.GetDB()
 	//defer db.Close()
+=======
+	//	db := config.GetDB()
+	//	defer db.Close()
+>>>>>>> Stashed changes
 	api := tushare.New("ef010210f12832692df4bd8e01f9353e794515a8d79bc0e7692026e7")
 	params := make(map[string]string)
 	//params["trade_date"] = "20190708"
