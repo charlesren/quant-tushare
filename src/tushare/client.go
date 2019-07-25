@@ -9,8 +9,24 @@ import (
 	"net/http"
 )
 
+var TushareConfig struct {
+	Endpoint string `json:"endpoint"`
+	Token    string `json:"token"`
+}
+
+func init() {
+	config, err := ioutil.ReadFile("./tushare.json")
+	if err != nil {
+		panic(err)
+	}
+	if err := json.Unmarshal(config, &TushareConfig); err != nil {
+		fmt.Println(err)
+		return
+	}
+}
+
 // Endpoint URL
-const Endpoint = "http://api.tushare.pro"
+//const Endpoint = "http://api.tushare.pro"
 
 // TuShare instance
 type TuShare struct {
@@ -86,7 +102,7 @@ func (api *TuShare) doRequest(req *http.Request) ([]byte, error) {
 }
 
 func (api *TuShare) postData(body map[string]interface{}) ([]byte, error) {
-	req, err := api.request("POST", Endpoint, body)
+	req, err := api.request("POST", TushareConfig.Endpoint, body)
 	if err != nil {
 		return nil, err
 	}

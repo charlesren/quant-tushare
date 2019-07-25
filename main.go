@@ -8,7 +8,7 @@ import (
 func main() {
 	//db := config.GetDB()
 	//defer db.Close()
-	api := tushare.New("2fc9814ba6115faf9df784de2f74f878c89485a3a92035816850782a")
+	api := tushare.New(tushare.TushareConfig.Token)
 	params := make(map[string]string)
 	//params["trade_date"] = "20190708"
 	params["ts_code"] = "000002.SZ"
