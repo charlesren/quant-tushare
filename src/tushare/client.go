@@ -25,9 +25,6 @@ func init() {
 	}
 }
 
-// Endpoint URL
-//const Endpoint = "http://api.tushare.pro"
-
 // TuShare instance
 type TuShare struct {
 	token  string
@@ -59,7 +56,7 @@ func (api *TuShare) request(method, path string, body interface{}) (*http.Reques
 	return req, nil
 }
 
-func (api *TuShare) doRequest(req *http.Request) ([]byte, error) {
+func (api *TuShare) doRequest(req *http.Request) (*APIResponse, error) {
 	// Set http content type
 	req.Header.Set("Content-Type", "application/json")
 
@@ -74,9 +71,8 @@ func (api *TuShare) doRequest(req *http.Request) ([]byte, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-	//	var jsonData *APIResponse
-	//err = json.NewDecoder(resp.Body).Decode(&jsonData)
+	var jsonData *APIResponse
+	err = json.NewDecoder(resp.Body).Decode(&jsonData)
 
 	// Check mime type of response
 	mimeType, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
@@ -89,19 +85,19 @@ func (api *TuShare) doRequest(req *http.Request) ([]byte, error) {
 
 	// @TODO: handle API exception
 	// Argument required
-	//	if jsonData.Code == -2001 {
-	//	return jsonData, fmt.Errorf("Argument error: %s", jsonData.Msg)
-	//}
+	if jsonData.Code == -2001 {
+		return jsonData, fmt.Errorf("Argument error: %s", jsonData.Msg)
+	}
 
 	// Permission deny
-	//if jsonData.Code == -2002 {
-	//return jsonData, fmt.Errorf("Your point is not enough to use this api")
-	//}
+	if jsonData.Code == -2002 {
+		return jsonData, fmt.Errorf("Your point is not enough to use this api")
+	}
 
-	return body, nil
+	return jsonData, nil
 }
 
-func (api *TuShare) postData(body map[string]interface{}) ([]byte, error) {
+func (api *TuShare) postData(body map[string]interface{}) (*APIResponse, error) {
 	req, err := api.request("POST", TushareConfig.Endpoint, body)
 	if err != nil {
 		return nil, err

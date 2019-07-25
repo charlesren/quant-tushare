@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		err.Error()
 	}
-	fmt.Println(string(resp))
+	fmt.Println(resp)
 	/*
 		fmt.Println(resp.Data)
 		fmt.Println(resp.Data.Items)
