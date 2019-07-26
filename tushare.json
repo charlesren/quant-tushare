@@ -1,0 +1,4 @@
+{
+	"endpoint" : "http://api.tushare.pro",
+    "token" : "your tushare token"
+}
