@@ -3,7 +3,7 @@ package tushare
 import "fmt"
 
 // Daily 获取股票行情数据, 日线行情
-func (api *TuShare) Daily(params map[string]string, fields []string) (*APIResponse, error) {
+func (api *TuShare) GetDaily(params map[string]string, fields []string) (*APIResponse, error) {
 	// Check params
 	_, hasTsCode := params["ts_code"]
 	_, hasTradeDate := params["trade_date"]

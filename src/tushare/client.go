@@ -110,20 +110,64 @@ func (api *TuShare) postData(body map[string]interface{}) (*APIResponse, error) 
 }
 
 // ParsingData  parsing tushare response to gorm form data
-/*
 func (resp *APIResponse) ParsingData() []Daily {
 	items := resp.Data.Items
 	fields := resp.Data.Fields
 	var dbdata []Daily
 	for _, value := range items {
 		iterData := Daily{}
-		for i := 0; i < len(fields); i++ {
-			iterData.TsCode = string(value[i])
-			//			iterData.fields[i] = value[i]
+		for i := 0; i < len(value); i++ {
+			/*
+				switch v := value[i].(type) {
+				case string, float64:
+					iterData.(fmt.Println(a)) := v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			*/
+			switch fields[i] {
+			case "ts_code":
+				switch v := value[i].(type) {
+				case string:
+					iterData.TsCode = v
+				//case  float64:
+				//	iterData.TsCode = value[i]
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+				/*
+					case trade_date:
+						iterData.TradeDate = value[i]
+					case open:
+						iterData.Open = value[i]
+					case high:
+						iterData.High = value[i]
+					case low:
+						iterData.Low = value[i]
+					case close:
+						iterData.Rlose = value[i]
+					case pre_close:
+						iterData.PreClose = value[i]
+					case change:
+						iterData.Change = value[i]
+					case pct_chg:
+						iterData.PctChg = value[i]
+					case vol:
+						iterData.Vol = value[i]
+					case amount:
+						iterData.Amount = value[i]
+				*/
+			}
 		}
 		dbdata = append(dbdata, iterData)
 	}
 	fmt.Println(dbdata)
+	for _, v := range dbdata {
+		fmt.Println(v)
+	}
 	return dbdata
 }
-*/
