@@ -132,35 +132,101 @@ func (resp *APIResponse) ParsingData() []Daily {
 				switch v := value[i].(type) {
 				case string:
 					iterData.TsCode = v
-				//case  float64:
-				//	iterData.TsCode = value[i]
 				case nil:
 					fmt.Println("data is empty")
 				default:
 					fmt.Println("data type is not string nor float64")
 				}
-				/*
-					case trade_date:
-						iterData.TradeDate = value[i]
-					case open:
-						iterData.Open = value[i]
-					case high:
-						iterData.High = value[i]
-					case low:
-						iterData.Low = value[i]
-					case close:
-						iterData.Rlose = value[i]
-					case pre_close:
-						iterData.PreClose = value[i]
-					case change:
-						iterData.Change = value[i]
-					case pct_chg:
-						iterData.PctChg = value[i]
-					case vol:
-						iterData.Vol = value[i]
-					case amount:
-						iterData.Amount = value[i]
-				*/
+			case "trade_date":
+				switch v := value[i].(type) {
+				case string:
+					iterData.TradeDate = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "open":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.Open = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "high":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.High = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "low":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.Low = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "close":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.Close = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "pre_close":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.PreClose = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "change":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.Change = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "pct_chg":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.PctChg = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "vol":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.Vol = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
+			case "amount":
+				switch v := value[i].(type) {
+				case float64:
+					iterData.Amount = v
+				case nil:
+					fmt.Println("data is empty")
+				default:
+					fmt.Println("data type is not string nor float64")
+				}
 			}
 		}
 		dbdata = append(dbdata, iterData)
