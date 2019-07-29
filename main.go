@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"quant-tushare/src/config"
 	"quant-tushare/src/tushare"
 )
 
 func main() {
-	//db := config.GetDB()
-	//defer db.Close()
+	db := config.GetDB()
+	defer db.Close()
 	api := tushare.New(tushare.TushareConfig.Token)
 	params := make(map[string]string)
 	//params["trade_date"] = "20190708"
@@ -19,20 +20,14 @@ func main() {
 	if err != nil {
 		err.Error()
 	}
-	fmt.Println(resp)
-	fmt.Println(resp.Data)
-	fmt.Println(resp.Data.Items)
-	fmt.Println(resp.Data.Items[0])
-	fmt.Println(resp.Data.Items[0][0])
-	fmt.Println(resp.Data.Fields)
-	fmt.Println(resp.Data.Fields[0])
-	var daily tushare.Daily
-	daily.TsCode = "000002.SZ"
-	daily.TradeDate = "20190708"
-	daily.Open = 29.5
+	fmt.Println(*resp)
+	//	var daily tushare.Daily
+	//daily.TsCode = "000002.SZ"
+	//	daily.TradeDate = "20190708"
+	//daily.Open = 29.5
 	for _, v := range resp.ParsingData() {
 		fmt.Println(v)
-		//	db.Create(v)
+		db.Create(&v)
 		//db.Create(&model.Daily{TsCode: daily.TsCode, TradeDate: daily.TradeDate, Open: daily.Open})
 	}
 }
