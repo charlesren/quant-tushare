@@ -165,9 +165,5 @@ func (resp *APIResponse) ParsingData() []Daily {
 		}
 		dbdata = append(dbdata, iterData)
 	}
-	fmt.Println(dbdata)
-	for _, v := range dbdata {
-		fmt.Println(v)
-	}
 	return dbdata
 }

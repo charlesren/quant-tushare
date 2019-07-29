@@ -30,9 +30,9 @@ func main() {
 	daily.TsCode = "000002.SZ"
 	daily.TradeDate = "20190708"
 	daily.Open = 29.5
-	//	d := resp.ParsingData
-	//for _, v := range d {
-	//db.Create(v)
-	//db.Create(&model.Daily{TsCode: daily.TsCode, TradeDate: daily.TradeDate, Open: daily.Open})
-	//	}
+	for _, v := range resp.ParsingData() {
+		fmt.Println(v)
+		//	db.Create(v)
+		//db.Create(&model.Daily{TsCode: daily.TsCode, TradeDate: daily.TradeDate, Open: daily.Open})
+	}
 }
