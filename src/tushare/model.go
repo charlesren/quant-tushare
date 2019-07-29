@@ -1,13 +1,8 @@
 package tushare
 
-import (
-	"github.com/jinzhu/gorm"
-)
-
 type Daily struct {
-	gorm.Model
-	TsCode    string
-	TradeDate string
+	TsCode    string `gorm:"primary_key"`
+	TradeDate string `gorm:"primary_key"`
 	Open      float64
 	High      float64
 	Low       float64
@@ -20,9 +15,8 @@ type Daily struct {
 }
 
 type Weekly struct {
-	gorm.Model
-	TsCode    string
-	TradeDate string
+	TsCode    string `gorm:"primary_key"`
+	TradeDate string `gorm:"primary_key"`
 	Close     float64
 	Open      float64
 	High      float64
@@ -35,9 +29,8 @@ type Weekly struct {
 }
 
 type Monthly struct {
-	gorm.Model
-	TsCode    string
-	TradeDate string
+	TsCode    string `gorm:"primary_key"`
+	TradeDate string `gorm:"primary_key"`
 	Close     float64
 	Open      float64
 	High      float64
