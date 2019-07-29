@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"quant-tushare/src/tushare"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -47,7 +48,7 @@ func initDB() {
 	dbConn.DB().SetMaxOpenConns(DBConfig.MaxOpenConns)
 	//user singular table in case y change to ies
 	dbConn.SingularTable(true)
-	//dbConn.AutoMigrate(&model.Daily{}, &model.Weekly{})
+	dbConn.AutoMigrate(&tushare.Daily{}, &tushare.Weekly{})
 	//	dbConn.Model(&model.OrderLine{}).AddForeignKey("order_id", "orders(order_id)", "CASCADE", "CASCADE")
 	//	dbConn.Model(&model.OrderLine{}).AddForeignKey("product_id", "products(product_id)", "CASCADE", "CASCADE")
 	//	dbConn.Model(&model.Order{}).AddForeignKey("user_id", "users(user_id)", "CASCADE", "CASCADE")
