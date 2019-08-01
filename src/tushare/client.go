@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"mime"
 	"net/http"
+	"reflect"
 )
 
 var TushareConfig struct {
@@ -117,16 +118,9 @@ func (resp *APIResponse) ParsingData() []Daily {
 	for _, value := range items {
 		iterData := Daily{}
 		for i := 0; i < len(value); i++ {
-			/*
-				switch v := value[i].(type) {
-				case string, float64:
-					iterData.(fmt.Println(a)) := v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			*/
+			x := reflect.ValueOf(value[i]).Elem()
+			fmt.Println(x)
+			//   reflect.ValueOf(&iterData).Elem().FieldByName(fields[i]).Set(x)
 			switch fields[i] {
 			case "ts_code":
 				switch v := value[i].(type) {
