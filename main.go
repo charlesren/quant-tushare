@@ -29,5 +29,8 @@ func main() {
 		fmt.Println(v)
 		db.Create(&v)
 		//db.Create(&model.Daily{TsCode: daily.TsCode, TradeDate: daily.TradeDate, Open: daily.Open})
+		a := "ab_cd"
+		b := tushare.SnakeToUpperCamel(a)
+		fmt.Println(b)
 	}
 }
