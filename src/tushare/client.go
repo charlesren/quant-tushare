@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"mime"
 	"net/http"
+	"reflect"
 )
 
 var TushareConfig struct {
@@ -113,114 +114,15 @@ func (api *TuShare) postData(body map[string]interface{}) (*APIResponse, error) 
 func (resp *APIResponse) ParsingData() []Daily {
 	items := resp.Data.Items
 	fields := resp.Data.Fields
+	for i := 0; i < len(fields); i++ {
+		fields[i] = SnakeToUpperCamel(fields[i])
+	}
 	var dbdata []Daily
 	for _, value := range items {
 		iterData := Daily{}
 		for i := 0; i < len(value); i++ {
-			//	x := reflect.ValueOf(value[i]).Elem()
-			//fmt.Println(x)
-			//   reflect.ValueOf(&iterData).Elem().FieldByName(fields[i]).Set(x)
-			switch fields[i] {
-			case "ts_code":
-				switch v := value[i].(type) {
-				case string:
-					iterData.TsCode = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "trade_date":
-				switch v := value[i].(type) {
-				case string:
-					iterData.TradeDate = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "open":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.Open = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "high":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.High = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "low":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.Low = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "close":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.Close = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "pre_close":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.PreClose = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "change":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.Change = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "pct_chg":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.PctChg = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "vol":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.Vol = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			case "amount":
-				switch v := value[i].(type) {
-				case float64:
-					iterData.Amount = v
-				case nil:
-					fmt.Println("data is empty")
-				default:
-					fmt.Println("data type is not string nor float64")
-				}
-			}
+			v := reflect.ValueOf(value[i])
+			reflect.ValueOf(&iterData).Elem().FieldByName(fields[i]).Set(v)
 		}
 		dbdata = append(dbdata, iterData)
 	}
