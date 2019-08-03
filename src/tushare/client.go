@@ -129,3 +129,22 @@ func (resp *APIResponse) ParsingDaily() []Daily {
 	}
 	return dbdata
 }
+
+// ParsingTradeCal save response f tushare trade_cal api  to []TradeCal slice
+func (resp *APIResponse) ParsingTradeCal() []TradeCal {
+	items := resp.Data.Items
+	fields := resp.Data.Fields
+	for i := 0; i < len(fields); i++ {
+		fields[i] = SnakeToUpperCamel(fields[i])
+	}
+	var dbdata []TradeCal
+	for _, value := range items {
+		iterData := TradeCal{}
+		for i := 0; i < len(value); i++ {
+			v := reflect.ValueOf(value[i])
+			reflect.ValueOf(&iterData).Elem().FieldByName(fields[i]).Set(v)
+		}
+		dbdata = append(dbdata, iterData)
+	}
+	return dbdata
+}
