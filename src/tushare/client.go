@@ -111,8 +111,8 @@ func (api *TuShare) postData(body map[string]interface{}) (*APIResponse, error) 
 	return resp, nil
 }
 
-// ParsingData  parsing tushare response to gorm form data
-func (resp *APIResponse) ParsingData() []Daily {
+// ParsingDaily  save response f tushare daily api  to []Daily slice
+func (resp *APIResponse) ParsingDaily() []Daily {
 	items := resp.Data.Items
 	fields := resp.Data.Fields
 	for i := 0; i < len(fields); i++ {
