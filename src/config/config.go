@@ -9,6 +9,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
+// DBConfig save database information
 var DBConfig struct {
 	Charset         string `json:"charset"`
 	MaxIdleConns    int    `json:"maxidleconns"`
@@ -35,9 +36,9 @@ func initDB() {
 		fmt.Println(err)
 		return
 	}
-	dbUri := fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s sslmode=%s ", DBConfig.Host, DBConfig.DbPort, DBConfig.Dbname, DBConfig.Username, DBConfig.Password, DBConfig.Sslmode)
+	dbURL := fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s sslmode=%s ", DBConfig.Host, DBConfig.DbPort, DBConfig.Dbname, DBConfig.Username, DBConfig.Password, DBConfig.Sslmode)
 	//fmt.Println("Connecting: " + dbUri)
-	dbConn, err = gorm.Open(DBConfig.Platform, dbUri)
+	dbConn, err = gorm.Open(DBConfig.Platform, dbURL)
 	if err != nil {
 		panic(err)
 	}
@@ -53,7 +54,7 @@ func initDB() {
 	//	dbConn.Model(&model.Order{}).AddForeignKey("user_id", "users(user_id)", "CASCADE", "CASCADE")
 }
 
-//
+// GetDB  return dbconn
 func GetDB() *gorm.DB { return dbConn }
 func init() {
 	initDB()
