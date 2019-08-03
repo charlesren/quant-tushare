@@ -27,8 +27,8 @@ func (api *TuShare) GetDaily(params map[string]string, fields []string) (*APIRes
 	return api.postData(body)
 }
 
-// TradeCal get trade calendar of SSE or SZSE
-func (api *TuShare) TradeCal(params map[string]string, fields []string) (*APIResponse, error) {
+// GetTradeCal get trade calendar of SSE or SZSE
+func (api *TuShare) GetTradeCal(params map[string]string, fields []string) (*APIResponse, error) {
 	// Check params
 
 	if dateFormat := IsDateFormat(params["start_date"], params["end_date"]); !dateFormat {
