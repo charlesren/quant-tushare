@@ -10,6 +10,7 @@ import (
 	"reflect"
 )
 
+// TushareConfig store thusahre token and weburl
 var TushareConfig struct {
 	Endpoint string `json:"endpoint"`
 	Token    string `json:"token"`

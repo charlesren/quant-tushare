@@ -1,5 +1,6 @@
 package tushare
 
+// Daily struct store return data of tushare daily api
 type Daily struct {
 	TsCode    string `gorm:"primary_key"`
 	TradeDate string `gorm:"primary_key"`
@@ -14,6 +15,7 @@ type Daily struct {
 	Amount    float64
 }
 
+// Weekly struct store return data of tushare weekly api
 type Weekly struct {
 	TsCode    string `gorm:"primary_key"`
 	TradeDate string `gorm:"primary_key"`
@@ -28,6 +30,7 @@ type Weekly struct {
 	Amount    float64
 }
 
+// Monthly struct store return data of tushare monthly api
 type Monthly struct {
 	TsCode    string `gorm:"primary_key"`
 	TradeDate string `gorm:"primary_key"`
