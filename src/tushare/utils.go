@@ -1,6 +1,8 @@
 package tushare
 
 import (
+	"fmt"
+	"reflect"
 	"regexp"
 	"strings"
 )
@@ -37,4 +39,14 @@ func SnakeToUpperCamel(snake string) (upperCamel string) {
 		}
 	}
 	return
+}
+
+// TushareModelFields print http response fileds name and type
+// this func could be helpful when define  gorm model
+func (resp *APIResponse) TushareModelFields() {
+	fields := resp.Data.Fields
+	for i := 0; i < len(fields); i++ {
+		fields[i] = SnakeToUpperCamel(fields[i])
+		fmt.Println(fields[i], reflect.TypeOf(fields[i]))
+	}
 }
