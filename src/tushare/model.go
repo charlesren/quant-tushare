@@ -15,6 +15,14 @@ type Daily struct {
 	Amount    float64
 }
 
+// TradeCal struct store return data of tushare trade_cal api
+type TradeCal struct {
+	Exchange     string `gorm:"primary_key"`
+	CalDate      string `gorm:"primary_key"`
+	IsOpen       string
+	PretradeDate string
+}
+
 // Weekly struct store return data of tushare weekly api
 type Weekly struct {
 	TsCode    string `gorm:"primary_key"`
