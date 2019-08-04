@@ -52,3 +52,9 @@ type Monthly struct {
 	Vol       float64
 	Amount    float64
 }
+
+// CheckPoint struct store checkpoint like stock daily trade data etc
+type CheckPoint struct {
+	Item string `gorm:"primary_key"`
+	Day  string `gorm:"primary_key"`
+}
