@@ -94,4 +94,6 @@ func UpdateTradeCal(db *gorm.DB) {
 	var StockExchange []string
 	StockExchange = []string{"SSE", "SZSE"}
 	db.Select("day").Where("item = ?", "SSE").Find(&checkPoint)
+	fmt.Println(checkPoint)
+	fmt.Println(StockExchange)
 }
