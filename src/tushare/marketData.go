@@ -3,6 +3,8 @@ package tushare
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/jinzhu/gorm"
 )
 
 // GetDaily 获取股票行情数据, 日线行情
@@ -84,4 +86,12 @@ func (resp *APIResponse) ParsingTradeCal() []TradeCal {
 		dbdata = append(dbdata, iterData)
 	}
 	return dbdata
+}
+
+//UpdateTradeCal function update trade calendar of SSE 、SZSE...
+func UpdateTradeCal(db *gorm.DB) {
+	var checkPoint CheckPoint
+	var StockExchange []string
+	StockExchange = []string{"SSE", "SZSE"}
+	db.Select("day").Where("item = ?", "SSE").Find(&checkPoint)
 }
