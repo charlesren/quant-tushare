@@ -30,3 +30,10 @@ func main() {
 		//db.Create(&model.Daily{TsCode: daily.TsCode, TradeDate: daily.TradeDate, Open: daily.Open})
 	}
 }
+
+//UpdateTradeCal function update trade calendar of SSE 、SZSE...
+func UpdateTradeCal() {
+	var StockExchange []string
+	StockExchange = []string{"SSE", "SZSE"}
+
+}
