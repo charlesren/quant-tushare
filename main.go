@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"quant-tushare/src/config"
 	"quant-tushare/src/tushare"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -14,6 +15,8 @@ func main() {
 	api := tushare.New(tushare.TushareConfig.Token)
 	params := make(map[string]string)
 	var fields []string
+	today := time.Now().Format("20060102")
+	fmt.Printf("today is %v\n", today)
 	//params["trade_date"] = "20190708"
 	params["ts_code"] = "000002.SZ"
 	params["start_date"] = "20190707"
