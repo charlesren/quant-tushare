@@ -17,7 +17,7 @@ func main() {
 	//params["trade_date"] = "20190708"
 	params["ts_code"] = "000002.SZ"
 	params["start_date"] = "20190707"
-	params["end_date"] = "20190708"
+	params["end_date"] = "20190711"
 	resp, err := api.GetDaily(params, fields)
 	if err != nil {
 		err.Error()
@@ -25,7 +25,7 @@ func main() {
 	fmt.Println(*resp)
 	for _, v := range resp.ParsingDaily() {
 		fmt.Println(v)
-		if err := db.First(&v).Error; err != nil {
+		if err := db.Find(&v).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
 				db.Create(&v)
 			} else {
