@@ -35,11 +35,8 @@ func main() {
 	}
 	var daily tushare.Daily
 	//db.Select("trade_date, open").Find(&daily)
-	db.Select("ts_code").Where("trade_date = ?", "20190708").Find(&daily)
-	fmt.Printf("%v\n", daily.TsCode)
-	var daily1 tushare.Daily
-	db.Last(&daily1)
-	//db.First(&daily1, "trade_date= ?", "20190708")
-	fmt.Printf("%v\n", daily1)
-	tushare.UpdateTradeCal(db)
+	db.Where("trade_date = ?", "20190708").Find(&daily)
+	//db.Select("ts_code").Where("trade_date = ?", "20190708").Find(&daily)
+	fmt.Printf("%v\n", daily)
+	//tushare.UpdateTradeCal(db)
 }
