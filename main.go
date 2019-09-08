@@ -50,4 +50,5 @@ func main() {
 	} else {
 		fmt.Println(tradeCal)
 	}
+	tushare.UpdateTradeCal(db, api)
 }
