@@ -2,7 +2,9 @@ package tushare
 
 import (
 	"fmt"
+	"log"
 	"reflect"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -89,11 +91,38 @@ func (resp *APIResponse) ParsingTradeCal() []TradeCal {
 }
 
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
-func UpdateTradeCal(db *gorm.DB) {
+func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 	var checkPoint CheckPoint
 	var StockExchange []string
 	StockExchange = []string{"SSE", "SZSE"}
-	db.Select("day").Where("item = ?", "SSE").Find(&checkPoint)
-	fmt.Println(checkPoint)
-	fmt.Println(StockExchange)
+	for _, exchange := range StockExchange {
+		if err := db.Select("day").Where("item = ?", exchange).Find(&checkPoint).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				checkPoint.Day = "19901219"
+			}
+		}
+		fmt.Println(StockExchange)
+		startDate := checkPoint.Day
+		endDate := time.Now().Format("20060102")
+		var params Params
+		var fields Fields
+		params["exchange"] = exchange
+		params["start_date"] = startDate
+		params["end_date"] = endDate
+		resp, err := api.GetTradeCal(params, fields)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(*resp)
+		for _, v := range resp.ParsingTradeCal() {
+			fmt.Println(v)
+			if err := db.Find(&v).Error; err != nil {
+				if err == gorm.ErrRecordNotFound {
+					db.Create(&v)
+				} else {
+					fmt.Println(err)
+				}
+			}
+		}
+	}
 }
