@@ -10,3 +10,9 @@ type APIResponse struct {
 		Items  [][]interface{} `json:"items"`
 	} `json:"data"`
 }
+
+// Params store input params used by tushare http api
+type Params map[string]string
+
+// Fields define return fields of tushare http api
+type Fields []string
