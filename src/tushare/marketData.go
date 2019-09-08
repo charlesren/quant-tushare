@@ -104,8 +104,8 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 		fmt.Println(StockExchange)
 		startDate := checkPoint.Day
 		endDate := time.Now().Format("20060102")
-		var params Params
-		var fields Fields
+		params := make(Params)
+		fields := Fields{}
 		params["exchange"] = exchange
 		params["start_date"] = startDate
 		params["end_date"] = endDate
