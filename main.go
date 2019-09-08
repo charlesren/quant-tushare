@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"quant-tushare/src/config"
 	"quant-tushare/src/tushare"
 	"time"
@@ -23,7 +24,7 @@ func main() {
 	params["end_date"] = "20190711"
 	resp, err := api.GetDaily(params, fields)
 	if err != nil {
-		err.Error()
+		log.Fatal(err)
 	}
 	fmt.Println(*resp)
 	for _, v := range resp.ParsingDaily() {
@@ -42,4 +43,11 @@ func main() {
 	//db.Select("ts_code").Where("trade_date = ?", "20190708").Find(&daily)
 	fmt.Printf("%v\n", daily)
 	//tushare.UpdateTradeCal(db)
+	var tradeCal tushare.TradeCal
+	db.Where("cal_date = ?", today).Find(&tradeCal)
+	if tradeCal.CalDate == "" {
+		fmt.Printf("no tradeCal of today\n")
+	} else {
+		fmt.Println(tradeCal)
+	}
 }
