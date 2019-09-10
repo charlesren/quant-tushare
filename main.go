@@ -46,9 +46,9 @@ func main() {
 	var tradeCal tushare.TradeCal
 	db.Where("cal_date = ?", today).Find(&tradeCal)
 	if tradeCal.CalDate == "" {
-		fmt.Printf("no tradeCal of today\n")
+		fmt.Printf("No tradeCal of today\n")
+		tushare.UpdateTradeCal(db, api)
 	} else {
-		fmt.Println(tradeCal)
+		fmt.Println("TradeCal is up to date!!!")
 	}
-	tushare.UpdateTradeCal(db, api)
 }
