@@ -102,7 +102,6 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 				checkPoint.Day = "19901219"
 			}
 		}
-		fmt.Println(StockExchange)
 		startDate := checkPoint.Day
 		endDate := time.Now().Format("20060102")
 		params := make(Params)
@@ -116,7 +115,6 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 		}
 		fmt.Println(*resp)
 		for _, v := range resp.ParsingTradeCal() {
-			fmt.Println(v)
 			if err := db.Find(&v).Error; err != nil {
 				if err == gorm.ErrRecordNotFound {
 					db.Create(&v)
