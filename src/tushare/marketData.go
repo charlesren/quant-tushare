@@ -96,6 +96,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 	var StockExchange []string
 	StockExchange = []string{"SSE", "SZSE"}
 	for _, exchange := range StockExchange {
+		checkPoint.Item = exchange
 		if err := db.Select("day").Where("item = ?", exchange).Find(&checkPoint).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
 				checkPoint.Day = "19901219"
@@ -121,6 +122,16 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 					db.Create(&v)
 				}
 			}
+		}
+		if err := db.Find(&checkPoint).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				checkPoint.Day = endDate
+				db.Create(&checkPoint)
+			}
+		} else {
+			db.Delete(&checkPoint)
+			checkPoint.Day = endDate
+			db.Create(&checkPoint)
 		}
 	}
 }
