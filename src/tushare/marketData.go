@@ -119,8 +119,6 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			if err := db.Find(&v).Error; err != nil {
 				if err == gorm.ErrRecordNotFound {
 					db.Create(&v)
-				} else {
-					fmt.Println(err)
 				}
 			}
 		}
