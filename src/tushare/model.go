@@ -19,7 +19,7 @@ type Daily struct {
 type TradeCal struct {
 	Exchange     string `gorm:"primary_key"`
 	CalDate      string `gorm:"primary_key"`
-	IsOpen       string
+	IsOpen       float64
 	PretradeDate string
 }
 
