@@ -19,3 +19,6 @@ type Fields []string
 
 // StockExchange define stock exchange such as SSE、SZSE
 type StockExchange []string
+
+// SE is dedault stock exchange
+var SE = StockExchange{"SSE", "SZSE"}
