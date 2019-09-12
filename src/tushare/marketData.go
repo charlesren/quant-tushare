@@ -109,27 +109,31 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 		params["exchange"] = exchange
 		params["start_date"] = startDate
 		params["end_date"] = endDate
-		resp, err := api.GetTradeCal(params, fields)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(*resp)
-		for _, v := range resp.ParsingTradeCal() {
-			if err := db.Find(&v).Error; err != nil {
-				if err == gorm.ErrRecordNotFound {
-					db.Create(&v)
+		if startDate == endDate {
+			fmt.Println("Trade calendar is already up to date!!!")
+		} else {
+			resp, err := api.GetTradeCal(params, fields)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println(*resp)
+			for _, v := range resp.ParsingTradeCal() {
+				if err := db.Find(&v).Error; err != nil {
+					if err == gorm.ErrRecordNotFound {
+						db.Create(&v)
+					}
 				}
 			}
-		}
-		if err := db.Find(&checkPoint).Error; err != nil {
-			if err == gorm.ErrRecordNotFound {
+			if err := db.Find(&checkPoint).Error; err != nil {
+				if err == gorm.ErrRecordNotFound {
+					checkPoint.Day = endDate
+					db.Create(&checkPoint)
+				}
+			} else {
+				db.Delete(&checkPoint)
 				checkPoint.Day = endDate
 				db.Create(&checkPoint)
 			}
-		} else {
-			db.Delete(&checkPoint)
-			checkPoint.Day = endDate
-			db.Create(&checkPoint)
 		}
 	}
 }
