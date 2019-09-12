@@ -110,7 +110,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 		params["start_date"] = startDate
 		params["end_date"] = endDate
 		if startDate == endDate {
-			fmt.Println("Trade calendar is already up to date!!!")
+			fmt.Printf("Trade calendar of %v is already up to date!!!\n", exchange)
 		} else {
 			resp, err := api.GetTradeCal(params, fields)
 			if err != nil {
@@ -134,6 +134,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 				checkPoint.Day = endDate
 				db.Create(&checkPoint)
 			}
+			fmt.Printf("Trade calendar of %v update successfully!!!\n", exchange)
 		}
 	}
 }
