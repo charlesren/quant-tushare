@@ -17,6 +17,8 @@ func main() {
 	//params["ts_code"] = "000002.SZ"
 	//params["start_date"] = "20190707"
 	//params["end_date"] = today
+	fields = tushare.Fields{"ts_code", "symbol", "name", "area", "industry", "fullname", "enname", "market", "exchange", "curr_type", "list_status", "list_date", "delist_date", "is_hs"}
+	//
 	resp, err := api.GetTushareData("stock_basic", params, fields)
 	if err != nil {
 		log.Fatal(err)
