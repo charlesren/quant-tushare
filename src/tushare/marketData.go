@@ -93,9 +93,9 @@ func (resp *APIResponse) ParsingTradeCal() []TradeCal {
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
 func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 	var checkPoint CheckPoint
-	var StockExchange []string
-	StockExchange = []string{"SSE", "SZSE"}
-	for _, exchange := range StockExchange {
+	var stockExchange StockExchange
+	stockExchange = SE
+	for _, exchange := range stockExchange {
 		checkPoint.Item = exchange
 		if err := db.Select("day").Where("item = ?", exchange).Find(&checkPoint).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
