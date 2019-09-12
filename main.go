@@ -42,13 +42,6 @@ func main() {
 	db.Where("trade_date = ?", "20190708").Find(&daily)
 	//db.Select("ts_code").Where("trade_date = ?", "20190708").Find(&daily)
 	fmt.Printf("%v\n", daily)
-	//tushare.UpdateTradeCal(db)
-	var tradeCal tushare.TradeCal
-	db.Where("cal_date = ?", today).Find(&tradeCal)
-	if tradeCal.CalDate == "" {
-		fmt.Printf("No tradeCal of today\n")
-		tushare.UpdateTradeCal(db, api)
-	} else {
-		fmt.Println("TradeCal is up to date!!!")
-	}
+	// Update trade calendar
+	tushare.UpdateTradeCal(db, api)
 }
