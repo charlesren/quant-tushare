@@ -10,7 +10,7 @@ import (
 )
 
 // GetDaily 获取股票行情数据, 日线行情
-func (api *TuShare) GetDaily(params map[string]string, fields []string) (*APIResponse, error) {
+func (api *TuShare) GetDaily(params Params, fields Fields) (*APIResponse, error) {
 	// Check params
 	_, hasTsCode := params["ts_code"]
 	_, hasTradeDate := params["trade_date"]
@@ -54,7 +54,7 @@ func (resp *APIResponse) ParsingDaily() []Daily {
 }
 
 // GetTradeCal get trade calendar of SSE or SZSE
-func (api *TuShare) GetTradeCal(params map[string]string, fields []string) (*APIResponse, error) {
+func (api *TuShare) GetTradeCal(params Params, fields Fields) (*APIResponse, error) {
 	// Check params
 
 	if dateFormat := IsDateFormat(params["start_date"], params["end_date"]); !dateFormat {
