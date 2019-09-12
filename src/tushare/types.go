@@ -16,3 +16,6 @@ type Params map[string]string
 
 // Fields define return fields of tushare http api
 type Fields []string
+
+// StockExchange define stock exchange such as SSE、SZSE
+type StockExchange []string
