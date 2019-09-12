@@ -58,3 +58,21 @@ type CheckPoint struct {
 	Item string `gorm:"primary_key"`
 	Day  string
 }
+
+//StockBasic define stock basic info include ts_code,name,list_date...
+type StockBasic struct {
+	TsCode     string
+	Symbol     string
+	Name       string
+	Area       string
+	Industry   string
+	Fullname   string
+	Enname     string
+	Market     string
+	Exchange   string
+	CurrType   string
+	ListStatus string
+	ListDate   string
+	DelistDate string
+	IsHs       string
+}
