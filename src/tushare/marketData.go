@@ -93,6 +93,27 @@ func (resp *APIResponse) ParsingTradeCal() []TradeCal {
 	return dbdata
 }
 
+// ParsingTushareData save response of tushare  api  to slice
+func ParsingTushareData(resp *APIResponse, dataType interface{}, db *gorm.DB) {
+	items := resp.Data.Items
+	fields := resp.Data.Fields
+	for i := 0; i < len(fields); i++ {
+		fields[i] = SnakeToUpperCamel(fields[i])
+	}
+	for _, value := range items {
+		for i := 0; i < len(value); i++ {
+			v := reflect.ValueOf(value[i])
+			reflect.ValueOf(&dataType).Elem().FieldByName(fields[i]).Set(v)
+			if err := db.Find(&v).Error; err != nil {
+				if err == gorm.ErrRecordNotFound {
+					fmt.Printf("Updating %v\n", v)
+					db.Create(&v)
+				}
+			}
+		}
+	}
+}
+
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
 func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 	var checkPoint CheckPoint
@@ -123,15 +144,19 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 				log.Fatal(err)
 			}
 			fmt.Println(*resp)
-			// update db
-			for _, v := range resp.ParsingTradeCal() {
-				if err := db.Find(&v).Error; err != nil {
-					if err == gorm.ErrRecordNotFound {
-						fmt.Printf("Updating %v\n", v)
-						db.Create(&v)
+			dataType := TradeCal{}
+			ParsingTushareData(resp, dataType, db)
+			/*
+				// update db
+				for _, v := range resp.ParsingTradeCal() {
+					if err := db.Find(&v).Error; err != nil {
+						if err == gorm.ErrRecordNotFound {
+							fmt.Printf("Updating %v\n", v)
+							db.Create(&v)
+						}
 					}
 				}
-			}
+			*/
 			// update checkPoint
 			if err := db.Find(&checkPoint).Error; err != nil {
 				if err == gorm.ErrRecordNotFound {
