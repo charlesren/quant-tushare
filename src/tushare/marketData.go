@@ -45,10 +45,6 @@ func (api *TuShare) GetTushareData(dataType string, params Params, fields Fields
 		if (!hasTsCode && !hasTradeDate) || (hasTsCode && hasTradeDate) {
 			return nil, fmt.Errorf("Need one argument ts_code or trade_date")
 		}
-
-		if dateFormat := IsDateFormat(params["trade_date"], params["start_date"], params["end_date"]); !dateFormat {
-			return nil, fmt.Errorf("please input right date format YYYYMMDD")
-		}
 	*/
 	body := map[string]interface{}{
 		"api_name": dataType,
@@ -76,24 +72,6 @@ func (resp *APIResponse) ParsingDaily() []Daily {
 		dbdata = append(dbdata, iterData)
 	}
 	return dbdata
-}
-
-// GetTradeCal get trade calendar of SSE or SZSE
-func (api *TuShare) GetTradeCal(params Params, fields Fields) (*APIResponse, error) {
-	// Check params
-
-	if dateFormat := IsDateFormat(params["start_date"], params["end_date"]); !dateFormat {
-		return nil, fmt.Errorf("please input right date format YYYYMMDD")
-	}
-
-	body := map[string]interface{}{
-		"api_name": "trade_cal",
-		"token":    api.token,
-		"fields":   fields,
-		"params":   params,
-	}
-
-	return api.postData(body)
 }
 
 // ParsingTradeCal save response f tushare trade_cal api  to []TradeCal slice
@@ -137,7 +115,10 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 		if startDate == endDate {
 			fmt.Printf("Trade calendar of %v is already up to date!!!\n", exchange)
 		} else {
-			resp, err := api.GetTradeCal(params, fields)
+			if dateFormat := IsDateFormat(params["start_date"], params["end_date"]); !dateFormat {
+				log.Fatal("please input right date format YYYYMMDD")
+			}
+			resp, err := api.GetTushareData("trade_cal", params, fields)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -146,7 +127,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			for _, v := range resp.ParsingTradeCal() {
 				if err := db.Find(&v).Error; err != nil {
 					if err == gorm.ErrRecordNotFound {
-						fmt.Printf("Updating %v\n", &v)
+						fmt.Printf("Updating %v\n", v)
 						db.Create(&v)
 					}
 				}
