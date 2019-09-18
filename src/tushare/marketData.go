@@ -100,11 +100,14 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 	for i := 0; i < len(fields); i++ {
 		fields[i] = SnakeToUpperCamel(fields[i])
 	}
-	iterData := reflect.ValueOf(dataTypeAddress).Elem()
+
+	//dbdata := reflect.ValueOf(dataTypeAddress).Elem()
+	iterType := reflect.TypeOf(dataTypeAddress).Elem().Elem()
+	iterData := reflect.New(iterType)
 	for _, value := range items {
 		for i := 0; i < len(value); i++ {
 			v := reflect.ValueOf(value[i])
-			iterData.FieldByName(fields[i]).Set(v)
+			iterData.Elem().FieldByName(fields[i]).Set(v)
 		}
 		if err := db.Find(dataTypeAddress).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
@@ -112,7 +115,9 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 				db.Create(dataTypeAddress)
 			}
 		}
+		//dbdata = append(dbdata, iterData)
 	}
+	//return dbdata
 }
 
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
@@ -145,7 +150,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 				log.Fatal(err)
 			}
 			fmt.Println(*resp)
-			dataType := TradeCal{}
+			dataType := []TradeCal{}
 			ParsingTushareData(resp, &dataType, db)
 			// update checkPoint
 			if err := db.Find(&checkPoint).Error; err != nil {
