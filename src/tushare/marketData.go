@@ -156,10 +156,10 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			ParsingTushareData(resp, &dataType, db)
 			// updata data
 			for _, iterData := range dataType {
-				if err := db.Find(iterData).Error; err != nil {
+				if err := db.Find(&iterData).Error; err != nil {
 					if err == gorm.ErrRecordNotFound {
 						fmt.Printf("Updating %v\n", iterData)
-						db.Create(iterData)
+						db.Create(&iterData)
 					}
 				}
 			}
