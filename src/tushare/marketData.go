@@ -117,9 +117,9 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 				}
 			}
 		*/
-		dbdata = reflect.Append(dbdata, iterData.Elem())
+		dbdata.Set(reflect.Append(dbdata, iterData.Elem()))
 	}
-	//return dbdata
+	fmt.Println(dbdata)
 }
 
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
