@@ -55,44 +55,6 @@ func (api *TuShare) GetTushareData(dataType string, params Params, fields Fields
 	return api.postData(body)
 }
 
-// ParsingDaily  save response f tushare daily api  to []Daily slice
-func (resp *APIResponse) ParsingDaily() []Daily {
-	items := resp.Data.Items
-	fields := resp.Data.Fields
-	for i := 0; i < len(fields); i++ {
-		fields[i] = SnakeToUpperCamel(fields[i])
-	}
-	var dbdata []Daily
-	for _, value := range items {
-		iterData := Daily{}
-		for i := 0; i < len(value); i++ {
-			v := reflect.ValueOf(value[i])
-			reflect.ValueOf(&iterData).Elem().FieldByName(fields[i]).Set(v)
-		}
-		dbdata = append(dbdata, iterData)
-	}
-	return dbdata
-}
-
-// ParsingTradeCal save response f tushare trade_cal api  to []TradeCal slice
-func (resp *APIResponse) ParsingTradeCal() []TradeCal {
-	items := resp.Data.Items
-	fields := resp.Data.Fields
-	for i := 0; i < len(fields); i++ {
-		fields[i] = SnakeToUpperCamel(fields[i])
-	}
-	var dbdata []TradeCal
-	for _, value := range items {
-		iterData := TradeCal{}
-		for i := 0; i < len(value); i++ {
-			v := reflect.ValueOf(value[i])
-			reflect.ValueOf(&iterData).Elem().FieldByName(fields[i]).Set(v)
-		}
-		dbdata = append(dbdata, iterData)
-	}
-	return dbdata
-}
-
 // ParsingTushareData save response of tushare  api  to slice
 func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm.DB) {
 	items := resp.Data.Items
