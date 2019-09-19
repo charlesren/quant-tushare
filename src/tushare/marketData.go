@@ -10,7 +10,7 @@ import (
 )
 
 // GetTushareData use http post methord to get data from https://tushare.pro
-func (api *TuShare) GetTushareData(dataType string, params Params, fields Fields) (*APIResponse, error) {
+func (api *TuShare) GetTushareData(apiName string, params Params, fields Fields) (*APIResponse, error) {
 	/*
 		// Check params
 		_, hasTsCode := params["ts_code"]
@@ -22,7 +22,7 @@ func (api *TuShare) GetTushareData(dataType string, params Params, fields Fields
 		}
 	*/
 	body := map[string]interface{}{
-		"api_name": dataType,
+		"api_name": apiName,
 		"token":    api.token,
 		"fields":   fields,
 		"params":   params,
