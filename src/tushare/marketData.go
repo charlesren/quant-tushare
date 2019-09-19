@@ -109,14 +109,6 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 			v := reflect.ValueOf(value[i])
 			iterData.Elem().FieldByName(fields[i]).Set(v)
 		}
-		/*
-			if err := db.Find(iterData).Error; err != nil {
-				if err == gorm.ErrRecordNotFound {
-					fmt.Printf("Updating %v\n", iterData)
-				db.Create(iterData)
-				}
-			}
-		*/
 		dbdata.Set(reflect.Append(dbdata, iterData.Elem()))
 	}
 	fmt.Println(dbdata)
