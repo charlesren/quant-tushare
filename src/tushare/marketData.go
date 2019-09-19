@@ -154,20 +154,27 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			fmt.Println(*resp)
 			dataType := []TradeCal{}
 			ParsingTushareData(resp, &dataType, db)
-			/*
-				// update checkPoint
-				if err := db.Find(&checkPoint).Error; err != nil {
+			// updata data
+			for _, iterData := range dataType {
+				if err := db.Find(iterData).Error; err != nil {
 					if err == gorm.ErrRecordNotFound {
-						checkPoint.Day = endDate
-						db.Create(&checkPoint)
+						fmt.Printf("Updating %v\n", iterData)
+						db.Create(iterData)
 					}
-				} else {
-					db.Delete(&checkPoint)
+				}
+			}
+			// update checkPoint
+			if err := db.Find(&checkPoint).Error; err != nil {
+				if err == gorm.ErrRecordNotFound {
 					checkPoint.Day = endDate
 					db.Create(&checkPoint)
 				}
-				fmt.Printf("Trade calendar of %v update successfully!!!\n", exchange)
-			*/
+			} else {
+				db.Delete(&checkPoint)
+				checkPoint.Day = endDate
+				db.Create(&checkPoint)
+			}
+			fmt.Printf("Trade calendar of %v update successfully!!!\n", exchange)
 		}
 	}
 }
