@@ -101,7 +101,7 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 		fields[i] = SnakeToUpperCamel(fields[i])
 	}
 
-	//dbdata := reflect.ValueOf(dataTypeAddress).Elem()
+	dbdata := reflect.ValueOf(dataTypeAddress).Elem()
 	iterType := reflect.TypeOf(dataTypeAddress).Elem().Elem()
 	iterData := reflect.New(iterType)
 	for _, value := range items {
@@ -109,13 +109,13 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 			v := reflect.ValueOf(value[i])
 			iterData.Elem().FieldByName(fields[i]).Set(v)
 		}
-		if err := db.Find(dataTypeAddress).Error; err != nil {
+		if err := db.Find(iterData).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
-				fmt.Printf("Updating %v\n", dataTypeAddress)
-				db.Create(dataTypeAddress)
+				fmt.Printf("Updating %v\n", iterData)
+				db.Create(iterData)
 			}
 		}
-		//dbdata = append(dbdata, iterData)
+		dbdata = reflect.Append(dbdata, iterData)
 	}
 	//return dbdata
 }
