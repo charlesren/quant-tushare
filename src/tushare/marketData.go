@@ -66,7 +66,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 		startDate := checkPoint.Day
 		endDate := time.Now().Format("20060102")
 		params := make(Params)
-		fields := Fields{}
+		fields := APIFullFields["trade_cal"]
 		params["exchange"] = exchange
 		params["start_date"] = startDate
 		params["end_date"] = endDate
@@ -106,4 +106,13 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			fmt.Printf("Trade calendar of %v update successfully!!!\n", exchange)
 		}
 	}
+}
+
+// UpdateDaily update stock daily
+func UpdateDaily(db *gorm.DB, api *TuShare) {
+}
+
+// UpdateStockBasic update stock list
+func UpdateStockBasic(db *gorm.DB, api *TuShare) {
+	//params := make(Params)
 }
