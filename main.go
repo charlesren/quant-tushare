@@ -12,7 +12,7 @@ func main() {
 	api := tushare.New(tushare.TushareConfig.Token)
 	params := make(tushare.Params)
 	var fields tushare.Fields
-	fields = tushare.Fields{"ts_code", "symbol", "name", "area", "industry", "fullname", "enname", "market", "exchange", "curr_type", "list_status", "list_date", "delist_date", "is_hs"}
+	fields = tushare.APIFullFields["stock_basic"]
 	resp, err := api.GetTushareData("stock_basic", params, fields)
 	if err != nil {
 		log.Fatal(err)
