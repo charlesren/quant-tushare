@@ -97,11 +97,13 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 				if err == gorm.ErrRecordNotFound {
 					checkPoint.Day = endDate
 					db.Create(&checkPoint)
+					fmt.Println("Checkpoint create successfully!!!")
 				}
 			} else {
 				db.Delete(&checkPoint)
 				checkPoint.Day = endDate
 				db.Create(&checkPoint)
+				fmt.Println("Checkpoint update successfully!!!")
 			}
 			fmt.Printf("Trade calendar of %v update successfully!!!\n", exchange)
 		}
