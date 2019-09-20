@@ -48,7 +48,7 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 		}
 		dbdata.Set(reflect.Append(dbdata, iterData.Elem()))
 	}
-	fmt.Println(dbdata)
+	fmt.Println("Result of parsing tushare response data: ", dbdata)
 }
 
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
@@ -80,7 +80,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Println(*resp)
+			fmt.Println("Response of tushare api: ", *resp)
 			dataType := []TradeCal{}
 			ParsingTushareData(resp, &dataType, db)
 			// updata data
