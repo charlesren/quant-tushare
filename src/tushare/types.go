@@ -26,4 +26,9 @@ var SE = StockExchange{"SSE", "SZSE"}
 // APIFullFields store tushare api name and full fields of api response
 var APIFullFields = map[string][]string{
 	"stock_basic": {"ts_code", "symbol", "name", "area", "industry", "fullname", "enname", "market", "exchange", "curr_type", "list_status", "list_date", "delist_date", "is_hs"},
+	"daily":       {"ts_code", "trade_date", "open", "high", "low", "close", "pre_close", "change", "pct_chg", "vol", "amount"},
+	"weekly":      {"ts_code", "trade_date", "close", "open", "high", "low", "pre_close", "change", "pct_chg", "vol", "amount"},
+	"monthly":     {"ts_code", "trade_date", "close", "open", "high", "low", "pre_close", "change", "pct_chg", "vol", "amount"},
+	"daily_basic": {"ts_code", "trade_date", "close", "turnover_rate", "turnover_rate_f", "volume_ratio", "pe", "pe_ttm", "pb", "ps", "ps_ttm", "total_share", "float_share", "free_share", "total_mv", "circ_mv"},
+	"stk_limit":   {"trade_date", "ts_code", "pre_close", "up_limit", "down_limit"},
 }
