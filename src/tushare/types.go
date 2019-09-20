@@ -22,3 +22,8 @@ type StockExchange []string
 
 // SE is dedault stock exchange
 var SE = StockExchange{"SSE", "SZSE"}
+
+// APIFullFields store tushare api name and full fields of api response
+var APIFullFields = map[string][]string{
+	"stock_basic": {"ts_code", "symbol", "name", "area", "industry", "fullname", "enname", "market", "exchange", "curr_type", "list_status", "list_date", "delist_date", "is_hs"},
+}
