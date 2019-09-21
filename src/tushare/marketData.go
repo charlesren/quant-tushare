@@ -44,7 +44,9 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 	for _, value := range items {
 		for i := 0; i < len(value); i++ {
 			v := reflect.ValueOf(value[i])
-			iterData.Elem().FieldByName(fields[i]).Set(v)
+			if v.IsValid() {
+				iterData.Elem().FieldByName(fields[i]).Set(v)
+			}
 		}
 		dbdata.Set(reflect.Append(dbdata, iterData.Elem()))
 	}
