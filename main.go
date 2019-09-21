@@ -18,6 +18,6 @@ func main() {
 		log.Fatal(err)
 	}
 	resp.TushareModelFields()
-	// Update trade calendar
 	tushare.UpdateTradeCal(db, api)
+	tushare.UpdateStockBasic(db, api)
 }

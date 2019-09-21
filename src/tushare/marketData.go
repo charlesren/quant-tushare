@@ -118,5 +118,34 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 
 // UpdateStockBasic update stock list
 func UpdateStockBasic(db *gorm.DB, api *TuShare) {
-	//params := make(Params)
+	params := make(Params)
+	fields := APIFullFields["stock_basic"]
+	resp, err := api.GetTushareData("stock_basic", params, fields)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//fmt.Println("Response of tushare api: ", *resp)
+	respData := []StockBasic{}
+	ParsingTushareData(resp, &respData, db)
+	existData := []StockBasic{}
+	if err := db.Find(&existData).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			fmt.Println("No data found in db!!!")
+		}
+	}
+	for _, data := range respData {
+		flag := 0
+		for i := 0; i < len(existData); i++ {
+			if existData[i] == data {
+				existData = append(existData[:i], existData[i+1:]...)
+				flag = 1
+				break
+			}
+		}
+		if flag == 1 {
+			fmt.Printf("%v already exist!!!\n", data)
+		} else {
+			db.Create(&data)
+		}
+	}
 }
