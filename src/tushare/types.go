@@ -24,7 +24,7 @@ type StockExchange []string
 var SE = StockExchange{"SSE", "SZSE"}
 
 // APIFullFields store tushare api name and full fields of api response
-var APIFullFields = map[string][]string{
+var APIFullFields = map[string]Fields{
 	"trade_cal":   {"exchange", "cal_date", "is_open", "pretrade_date"},
 	"stock_basic": {"ts_code", "symbol", "name", "area", "industry", "fullname", "enname", "market", "exchange", "curr_type", "list_status", "list_date", "delist_date", "is_hs"},
 	"daily":       {"ts_code", "trade_date", "open", "high", "low", "close", "pre_close", "change", "pct_chg", "vol", "amount"},
