@@ -48,7 +48,7 @@ func initDB() {
 	dbConn.DB().SetMaxOpenConns(DBConfig.MaxOpenConns)
 	//user singular table in case y change to ies
 	dbConn.SingularTable(true)
-	//dbConn.AutoMigrate(&tushare.Daily{}, &tushare.Weekly{}, &tushare.TradeCal{}, &tushare.CheckPoint{})
+	//dbConn.AutoMigrate(&tushare.Daily{}, &tushare.Weekly{}, &tushare.TradeCal{}, &tushare.CheckPoint{}, &tushare.StockBasic{})
 	//	dbConn.Model(&model.OrderLine{}).AddForeignKey("order_id", "orders(order_id)", "CASCADE", "CASCADE")
 	//	dbConn.Model(&model.OrderLine{}).AddForeignKey("product_id", "products(product_id)", "CASCADE", "CASCADE")
 	//	dbConn.Model(&model.Order{}).AddForeignKey("user_id", "users(user_id)", "CASCADE", "CASCADE")
