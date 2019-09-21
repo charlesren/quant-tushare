@@ -145,6 +145,7 @@ func UpdateStockBasic(db *gorm.DB, api *TuShare) {
 		if flag == 1 {
 			fmt.Printf("%v already exist!!!\n", data)
 		} else {
+			fmt.Printf("Updating %v\n", data)
 			db.Create(&data)
 		}
 	}
