@@ -50,7 +50,6 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 		}
 		dbdata.Set(reflect.Append(dbdata, iterData.Elem()))
 	}
-	fmt.Println("Result of parsing tushare response data: ", dbdata)
 }
 
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
