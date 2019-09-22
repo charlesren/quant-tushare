@@ -113,6 +113,62 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 
 // UpdateDaily update stock daily
 func UpdateDaily(db *gorm.DB, api *TuShare) {
+	params := make(Params)
+	params["start_date"] = "19901219" //default start date
+	endDate := time.Now().Format("20060102")
+	params["end_date"] = endDate
+	fields := APIFullFields["daily"]
+	var checkPoints []CheckPoint
+	db.Table("check_point").Find(&checkPoints)
+	stockList := []StockBasic{}
+	if err := db.Table("stock_basic").Find(&stockList).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			fmt.Println("No data found in db!!!")
+			fmt.Println("Please update stock basic first!!!")
+			return
+		}
+	}
+	for _, stock := range stockList {
+		var checkPoint CheckPoint
+		params["ts_code"] = stock.TsCode
+		flag := 0
+		for i := 0; i < len(checkPoints); i++ {
+			if stock.TsCode == checkPoints[i].Item {
+				checkPoint = checkPoints[i]
+				params["start_date"] = checkPoints[i].Day
+				checkPoints = append(checkPoints[:i], checkPoints[i+1:]...)
+				flag = 1
+				break
+			}
+		}
+		if params["start_date"] == params["end_date"] {
+			fmt.Printf("Daily data of %v is already up to date!!!\n", stock.TsCode)
+		} else {
+			resp, err := api.GetTushareData("daily", params, fields)
+			if err != nil {
+				log.Fatal(err)
+			}
+			respData := []Daily{}
+			ParsingTushareData(resp, &respData, db)
+			fmt.Println(respData) // updata data
+			for _, iterData := range respData {
+				fmt.Printf("Updating %v\n", iterData)
+				db.Create(&iterData)
+			}
+			// update checkPoint
+			if flag == 1 {
+				db.Delete(&checkPoint)
+				checkPoint.Day = endDate
+				db.Create(&checkPoint)
+				log.Printf("Checkpoint: %v update successfully!!!", checkPoint)
+			} else {
+				checkPoint.Day = endDate
+				checkPoint.Item = stock.TsCode
+				db.Create(&checkPoint)
+				log.Printf("Checkpoint: %v create successfully!!!", checkPoint)
+			}
+		}
+	}
 }
 
 // UpdateStockBasic update stock list

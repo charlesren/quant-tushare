@@ -20,4 +20,5 @@ func main() {
 	resp.TushareModelFields()
 	tushare.UpdateTradeCal(db, api)
 	tushare.UpdateStockBasic(db, api)
+	tushare.UpdateDaily(db, api)
 }
