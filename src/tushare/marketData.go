@@ -143,11 +143,13 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 		}
 		if params["start_date"] == params["end_date"] {
 			fmt.Printf("Daily data of %v is already up to date!!!\n", stock.TsCode)
+			params["start_date"] = "19901219" //reset params["start_date"] to default start date
 		} else {
 			resp, err := api.GetTushareData("daily", params, fields)
 			if err != nil {
 				log.Fatal(err)
 			}
+			params["start_date"] = "19901219" //reset params["start_date"] to default start date
 			respData := []Daily{}
 			ParsingTushareData(resp, &respData, db)
 			fmt.Println(respData) // updata data
