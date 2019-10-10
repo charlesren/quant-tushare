@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-const sinaURLPrefix = "http://hq.sinajs.cn/list"
+const sinaURLPrefix = "http://hq.sinajs.cn/list="
 
 // GetData return real time stock data info
 func GetData(stock string) Data {
