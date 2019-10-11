@@ -27,7 +27,6 @@ func GetData(stock string) Data {
 	}
 	t := strings.Split(string(body), "\"")
 	d := strings.Split(t[1], ",")
-	fmt.Println("Return data is :", d)
 	var data Data
 	data.Name = d[0]
 	data.Open, _ = strconv.ParseFloat(d[1], 64)
