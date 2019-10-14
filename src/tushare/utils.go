@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"regexp"
 	"strings"
+	"time"
 )
 
 // IsDateFormat Check date format YYYYMMDD
@@ -49,4 +50,15 @@ func (resp *APIResponse) TushareModelFields() {
 		fields[i] = SnakeToUpperCamel(fields[i])
 		fmt.Println(fields[i], reflect.TypeOf(fields[i]))
 	}
+}
+
+// NextDay return date string in format "20160102"
+// eg: input "20191001"  return "20191002"
+func NextDay(data string) string {
+	format := "20160102"
+	t, _ := time.Parse(format, data)
+	fmt.Println(t)
+	n := t.AddDate(0, 0, 1)
+	nextDay := n.Format(format)
+	return nextDay
 }
