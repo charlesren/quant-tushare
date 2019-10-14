@@ -135,7 +135,8 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 		for i := 0; i < len(checkPoints); i++ {
 			if stock.TsCode == checkPoints[i].Item {
 				checkPoint = checkPoints[i]
-				params["start_date"] = checkPoints[i].Day
+				checkPointDay := checkPoints[i].Day
+				params["start_date"] = NextDay(checkPointDay)
 				checkPoints = append(checkPoints[:i], checkPoints[i+1:]...)
 				flag = 1
 				break
@@ -152,7 +153,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			params["start_date"] = "19901219" //reset params["start_date"] to default start date
 			respData := []Daily{}
 			ParsingTushareData(resp, &respData, db)
-			fmt.Println(respData) // updata data
+			fmt.Println("Response data is :", respData) // updata data
 			for _, iterData := range respData {
 				fmt.Printf("Updating %v\n", iterData)
 				db.Create(&iterData)
