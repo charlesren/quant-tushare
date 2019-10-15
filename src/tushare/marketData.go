@@ -136,7 +136,11 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			if stock.TsCode == checkPoints[i].Item {
 				checkPoint = checkPoints[i]
 				checkPointDay := checkPoints[i].Day
-				params["start_date"] = NextDay(checkPointDay)
+				if checkPointDay == params["end_date"] {
+					params["start_date"] = checkPointDay
+				} else {
+					params["start_date"] = NextDay(checkPointDay)
+				}
 				checkPoints = append(checkPoints[:i], checkPoints[i+1:]...)
 				flag = 1
 				break
