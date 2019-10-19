@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"mime"
 	"net/http"
+	"time"
 )
 
 // TushareConfig store thusahre token and weburl
@@ -92,7 +93,10 @@ func (api *TuShare) doRequest(req *http.Request) (*APIResponse, error) {
 
 	// Permission deny
 	if jsonData.Code == -2002 {
-		return jsonData, fmt.Errorf("Your point is not enough to use this api")
+		fmt.Println("Your point is not enough to use this api")
+		//return jsonData, fmt.Errorf("Your point is not enough to use this api")
+		fmt.Println("Sleep 5 seconds,please wait!!!")
+		time.Sleep(5 * time.Second)
 	}
 
 	return jsonData, nil
