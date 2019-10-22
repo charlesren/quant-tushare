@@ -198,10 +198,14 @@ func UpdateStockBasic(db *gorm.DB, api *TuShare) {
 	for _, data := range respData {
 		flag := 0
 		for i := 0; i < len(existData); i++ {
-			if existData[i] == data {
-				existData = append(existData[:i], existData[i+1:]...)
-				flag = 1
-				break
+			if existData[i].TsCode == data.TsCode {
+				if existData[i] == data {
+					existData = append(existData[:i], existData[i+1:]...)
+					flag = 1
+					break
+				} else {
+					db.Delete(existData[i])
+				}
 			}
 		}
 		if flag == 1 {
