@@ -2,8 +2,8 @@ package main
 
 import (
 	"log"
-	"quant-tushare/src/config"
-	"quant-tushare/src/tushare"
+	"github.com/charlesren/quant-tushare/src/config"
+	"github.com/charlesren/quant-tushare/src/tushare"
 )
 
 func main() {
