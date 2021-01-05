@@ -24,8 +24,10 @@ func main() {
 	}
 	//print response fields
 	resp.TushareModelFields()
-	//request data and save into db
+	//update trade calendar of stock exchange
 	tushare.UpdateTradeCal(db, api)
+	//update stock list of stock exchange (sse/szse)
 	tushare.UpdateStockBasic(db, api)
+	//update daily exchange data
 	tushare.UpdateDaily(db, api)
 }
