@@ -12,3 +12,7 @@ use you own token
 
 use you own db
 
+3. use cmd/initdb tool migrate schema
+
+**attention**: initdb and config.json must in the same dir
+
