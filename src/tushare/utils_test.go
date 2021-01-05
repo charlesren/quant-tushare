@@ -14,3 +14,22 @@ func TestNextDay(t *testing.T) {
 		t.Errorf("Wrong date!!!\n")
 	}
 }
+func TestTushareModelFields(t *testing.T) {
+	//init database
+	db := config.GetDB()
+	defer db.Close()
+	//init tushare account
+	api := tushare.New(tushare.TushareConfig.Token)
+	//define api params
+	params := make(tushare.Params)
+	//define api response  field
+	var fields tushare.Fields
+	fields = tushare.APIFullFields["stock_basic"]
+	//request date from tushare
+	resp, err := api.GetTushareData("stock_basic", params, fields)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//print response fields
+	resp.TushareModelFields()
+}
