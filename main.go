@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"github.com/charlesren/quant-tushare/src/config"
 	"github.com/charlesren/quant-tushare/src/tushare"
 )
@@ -12,22 +12,16 @@ func main() {
 	defer db.Close()
 	//init tushare account
 	api := tushare.New(tushare.TushareConfig.Token)
-	//define api params
-	params := make(tushare.Params)
-	//define api response  field
-	var fields tushare.Fields
-	fields = tushare.APIFullFields["stock_basic"]
-	//request date from tushare
-	resp, err := api.GetTushareData("stock_basic", params, fields)
-	if err != nil {
-		log.Fatal(err)
-	}
-	//print response fields
-	resp.TushareModelFields()
 	//update trade calendar of stock exchange
+	fmt.Println("start to update trade calendar")
 	tushare.UpdateTradeCal(db, api)
+	fmt.Println("update trade calendar finished")
 	//update stock list of stock exchange (sse/szse)
+	fmt.Println("start to update stock list")
 	tushare.UpdateStockBasic(db, api)
+	fmt.Println("update stock list finished")
 	//update daily exchange data
+	fmt.Println("start to update stock daily data")
 	tushare.UpdateDaily(db, api)
+	fmt.Println("update daily data finished")
 }
