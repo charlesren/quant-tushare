@@ -157,7 +157,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			params["start_date"] = "19901219" //reset params["start_date"] to default start date
 			respData := []Daily{}
 			ParsingTushareData(resp, &respData, db)
-			fmt.Println("Response data is :", respData) // updata data
+			fmt.Printf("Response data for %v is : %v", stock.TsCode, respData) // updata data
 			for _, iterData := range respData {
 				fmt.Printf("Updating %v\n", iterData)
 				db.Create(&iterData)
