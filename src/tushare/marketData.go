@@ -118,14 +118,18 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 	endDate := time.Now().Format("20060102")
 	params["end_date"] = endDate
 	fields := APIFullFields["daily"]
-	var checkPoints []CheckPoint
-	db.Table("check_point").Find(&checkPoints)
 	stockList := []StockBasic{}
 	if err := db.Table("stock_basic").Find(&stockList).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			fmt.Println("No data found in db!!!")
+			fmt.Println("No stock basic data found in db!!!")
 			fmt.Println("Please update stock basic first!!!")
 			return
+		}
+	}
+	var checkPoints []CheckPoint
+	if err := db.Table("check_point").Find(&checkPoints).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			fmt.Println("No checkpoint data found in db!!!")
 		}
 	}
 	for _, stock := range stockList {
