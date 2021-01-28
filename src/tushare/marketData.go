@@ -114,7 +114,6 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 // UpdateDaily update stock daily
 func UpdateDaily(db *gorm.DB, api *TuShare) {
 	params := make(Params)
-	params["start_date"] = "19901219" //default start date
 	endDate := time.Now().Format("20060102")
 	params["end_date"] = endDate
 	fields := APIFullFields["daily"]
@@ -133,6 +132,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 		}
 	}
 	for _, stock := range stockList {
+		params["start_date"] = "19901219" //reset params["start_date"] to default start date
 		var checkPoint CheckPoint
 		params["ts_code"] = stock.TsCode
 		flag := 0
@@ -152,13 +152,11 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 		}
 		if params["start_date"] == params["end_date"] {
 			fmt.Printf("Daily data of %v is already up to date!!!\n", stock.TsCode)
-			params["start_date"] = "19901219" //reset params["start_date"] to default start date
 		} else {
 			resp, err := api.GetTushareData("daily", params, fields)
 			if err != nil {
 				log.Fatal(err)
 			}
-			params["start_date"] = "19901219" //reset params["start_date"] to default start date
 			respData := []Daily{}
 			ParsingTushareData(resp, &respData, db)
 			fmt.Printf("Response data for %v is : %v", stock.TsCode, respData) // updata data
