@@ -118,7 +118,6 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 	params["end_date"] = endDate
 	fields := APIFullFields["daily"]
 	stockList := []StockBasic{}
-	fmt.Printf("stockList is: %v !!!\n",stockList)
 	if err := db.Table("stock_basic").Find(&stockList).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			fmt.Println("No stock basic data found in db!!!")
@@ -126,13 +125,14 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			return
 		}
 	}
+	fmt.Printf("stockList is: %v !!!\n",stockList)
 	var checkPoints []CheckPoint
-	fmt.Printf("checkPoints is: %v !!!\n",checkPoints)
 	if err := db.Table("check_point").Find(&checkPoints).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			fmt.Println("No checkpoint data found in db!!!")
 		}
 	}
+	fmt.Printf("checkPoints is: %v !!!\n",checkPoints)
 	for _, stock := range stockList {
 		params["start_date"] = "19901219" //reset params["start_date"] to default start date
 		var checkPoint CheckPoint
