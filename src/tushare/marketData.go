@@ -168,14 +168,14 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			}
 			// update checkPoint
 			lastDay := Daily{}
-			fmt.Printf("get last daily data for %v !!!",stock.TsCode)
+			fmt.Printf("Get last daily data for %v !!!\n",stock.TsCode)
 			if err := db.Table("daily").Where("ts_code = ?",stock.TsCode).Last(&lastDay).Error; err != nil {
 				if err == gorm.ErrRecordNotFound {
 					fmt.Println("No checkpoint data found in db!!!")
 			        checkPoint.Day = "19901219"
 				}
 			}
-			fmt.Printf("last daily data for %v is : %v\n", stock.TsCode, lastDay)
+			fmt.Printf("Last daily data for %v is : %v\n", stock.TsCode, lastDay)
 			if flag == 1 {
 				db.Delete(&checkPoint)
 				checkPoint.Day = lastDay.TradeDate
