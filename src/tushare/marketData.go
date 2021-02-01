@@ -118,6 +118,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 	params["end_date"] = endDate
 	fields := APIFullFields["daily"]
 	stockList := []StockBasic{}
+	fmt.Printf("stockList is: v% !!!\n",stockList)
 	if err := db.Table("stock_basic").Find(&stockList).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			fmt.Println("No stock basic data found in db!!!")
@@ -126,6 +127,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 		}
 	}
 	var checkPoints []CheckPoint
+	fmt.Printf("checkPoints is: v% !!!\n",checkPoints)
 	if err := db.Table("check_point").Find(&checkPoints).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			fmt.Println("No checkpoint data found in db!!!")
@@ -159,7 +161,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			}
 			respData := []Daily{}
 			ParsingTushareData(resp, &respData, db)
-			fmt.Printf("Response data for %v is : %v", stock.TsCode, respData) // updata data
+			fmt.Printf("Response data for %v is : %v\n", stock.TsCode, respData) // updata data
 			for _, iterData := range respData {
 				fmt.Printf("Updating %v\n", iterData)
 				db.Create(&iterData)
@@ -169,12 +171,12 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 				db.Delete(&checkPoint)
 				checkPoint.Day = endDate
 				db.Create(&checkPoint)
-				log.Printf("Checkpoint: %v update successfully!!!", checkPoint)
+				log.Printf("Checkpoint: %v update successfully!!!\n", checkPoint)
 			} else {
 				checkPoint.Day = endDate
 				checkPoint.Item = stock.TsCode
 				db.Create(&checkPoint)
-				log.Printf("Checkpoint: %v create successfully!!!", checkPoint)
+				log.Printf("Checkpoint: %v create successfully!!!\n", checkPoint)
 			}
 		}
 	}
