@@ -9,7 +9,6 @@ import (
 func main() {
 	// connect to database
 	db := config.GetDB()
-	defer db.Close()
 	// migrate schema
 	db.AutoMigrate(&tushare.TradeCal{})
 	db.AutoMigrate(&tushare.CheckPoint{})
