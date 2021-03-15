@@ -3,16 +3,17 @@ package main
 import (
 	"fmt"
 	"github.com/charlesren/quant-tushare/src/config"
-	"github.com/charlesren/quant-tushare/src/tushare"
+	//"github.com/charlesren/quant-tushare/src/tushare"
 )
 
 func main() {
 	//init database
 	db := config.GetDB()
-	defer db.Close()
+	fmt.Println(db)
 	//init tushare account
-	api := tushare.New(tushare.TushareConfig.Token)
+	//api := tushare.New(tushare.TushareConfig.Token)
 	//update trade calendar of stock exchange
+	/*
 	fmt.Println("start to update trade calendar")
 	tushare.UpdateTradeCal(db, api)
 	fmt.Println("update trade calendar finished")
@@ -24,4 +25,6 @@ func main() {
 	fmt.Println("start to update stock daily data")
 	tushare.UpdateDaily(db, api)
 	fmt.Println("update daily data finished")
+	*/
+
 }
