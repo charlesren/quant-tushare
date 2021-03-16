@@ -54,15 +54,15 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
 func UpdateTradeCal(db *gorm.DB, api *TuShare) {
-	var tradeCal TradeCal
 	var stockExchange StockExchange
 	stockExchange = SE
 	for _, exchange := range stockExchange {
+		var tradeCal TradeCal
 		fmt.Printf("Get last trade calendar day saved for %v !!!\n", exchange)
 		if err := db.Table("trade_cals").Where("exchange = ?", exchange).Order("cal_date desc").Limit(1).Find(&tradeCal).Error; err == nil {
 			if tradeCal.CalDate == "" {
 				fmt.Printf("No trade calendar record found in db for %v !!!\n", exchange)
-				fmt.Printf("Set last trade calendar day for %v to default !!!\n",exchange)
+				fmt.Printf("Set last trade calendar day for %v to default !!!\n", exchange)
 				tradeCal.CalDate = "19901219"
 			}
 			fmt.Printf("Last trade calendar day for %v is %v !!!\n", exchange, tradeCal.CalDate)
