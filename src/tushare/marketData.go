@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 // GetTushareData use http post methord to get data from https://tushare.pro
@@ -54,17 +54,22 @@ func ParsingTushareData(resp *APIResponse, dataTypeAddress interface{}, db *gorm
 
 //UpdateTradeCal function update trade calendar of SSE 、SZSE...
 func UpdateTradeCal(db *gorm.DB, api *TuShare) {
-	var checkPoint CheckPoint
+	var tradeCal TradeCal
 	var stockExchange StockExchange
 	stockExchange = SE
 	for _, exchange := range stockExchange {
-		checkPoint.Item = exchange
-		if err := db.Select("day").Where("item = ?", exchange).Find(&checkPoint).Error; err != nil {
-			if err == gorm.ErrRecordNotFound {
-				checkPoint.Day = "19901219"
+		fmt.Printf("Get last trade calendar day saved for %v !!!\n", exchange)
+		if err := db.Table("trade_cals").Where("exchange = ?", exchange).Order("cal_date desc").Limit(1).Find(&tradeCal).Error; err == nil {
+			if tradeCal.CalDate == "" {
+				fmt.Printf("No trade calendar record found in db for %v !!!\n", exchange)
+				fmt.Printf("Set last trade calendar day for %v to default !!!\n",exchange)
+				tradeCal.CalDate = "19901219"
 			}
+			fmt.Printf("Last trade calendar day for %v is %v !!!\n", exchange, tradeCal.CalDate)
+		} else {
+			fmt.Printf("Get last trade calendar day saved for %v error !!!\n", exchange)
 		}
-		startDate := checkPoint.Day
+		startDate := tradeCal.CalDate
 		endDate := time.Now().Format("20060102")
 		params := make(Params)
 		fields := APIFullFields["trade_cal"]
@@ -85,27 +90,8 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			dataType := []TradeCal{}
 			ParsingTushareData(resp, &dataType, db)
 			// updata data
-			for _, iterData := range dataType {
-				if err := db.Find(&iterData).Error; err != nil {
-					if err == gorm.ErrRecordNotFound {
-						fmt.Printf("Updating %v\n", iterData)
-						db.Create(&iterData)
-					}
-				}
-			}
-			// update checkPoint
-			if err := db.Find(&checkPoint).Error; err != nil {
-				if err == gorm.ErrRecordNotFound {
-					checkPoint.Day = endDate
-					db.Create(&checkPoint)
-					fmt.Println("Checkpoint create successfully!!!")
-				}
-			} else {
-				db.Delete(&checkPoint)
-				checkPoint.Day = endDate
-				db.Create(&checkPoint)
-				fmt.Println("Checkpoint update successfully!!!")
-			}
+			fmt.Printf("Start to update trade calendar of %v .\n", exchange)
+			db.Create(dataType)
 			fmt.Printf("Trade calendar of %v update successfully!!!\n", exchange)
 		}
 	}
@@ -125,14 +111,14 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			return
 		}
 	}
-	fmt.Printf("stockList is: %v !!!\n",stockList)
+	fmt.Printf("stockList is: %v !!!\n", stockList)
 	var checkPoints []CheckPoint
 	if err := db.Table("check_point").Find(&checkPoints).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			fmt.Println("No checkpoint data found in db!!!")
 		}
 	}
-	fmt.Printf("checkPoints is: %v !!!\n",checkPoints)
+	fmt.Printf("checkPoints is: %v !!!\n", checkPoints)
 	for _, stock := range stockList {
 		params["start_date"] = "19901219" //reset params["start_date"] to default start date
 		var checkPoint CheckPoint
@@ -168,11 +154,11 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			}
 			// update checkPoint
 			lastDay := Daily{}
-			fmt.Printf("Get last daily data for %v !!!\n",stock.TsCode)
-			if err := db.Table("daily").Limit(1).Where("ts_code = ?",stock.TsCode).Order("trade_date desc").Find(&lastDay).Error; err != nil {
+			fmt.Printf("Get last daily data for %v !!!\n", stock.TsCode)
+			if err := db.Table("daily").Limit(1).Where("ts_code = ?", stock.TsCode).Order("trade_date desc").Find(&lastDay).Error; err != nil {
 				if err == gorm.ErrRecordNotFound {
 					fmt.Println("No checkpoint data found in db!!!")
-			        checkPoint.Day = "19901219"
+					checkPoint.Day = "19901219"
 				}
 			}
 			fmt.Printf("Last daily data for %v is : %v\n", stock.TsCode, lastDay)
