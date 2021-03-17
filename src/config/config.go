@@ -47,7 +47,6 @@ func initDB() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(dbConn)
 }
 
 // GetDB  return dbconn
