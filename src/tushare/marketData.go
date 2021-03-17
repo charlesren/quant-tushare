@@ -79,8 +79,7 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 			fmt.Printf("Trade calendar of %v is already up to date!!!\n", exchange)
 			continue
 		} else {
-			tempDate, _ := time.Parse("20060102", tradeCal.CalDate)
-			startDate = tempDate.AddDate(0, 0, 1).Format("20060102")
+			startDate = NextDay(tradeCal.CalDate)
 		}
 		params["start_date"] = startDate
 		if startDate == endDate {
@@ -109,23 +108,18 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 	params := make(Params)
 	endDate := time.Now().Format("20060102")
 	params["end_date"] = endDate
-	fields := APIFullFields["daily"]
+	//fields := APIFullFields["daily"]
 	stockList := []StockBasic{}
-	if err := db.Table("stock_basic").Find(&stockList).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			fmt.Println("No stock basic data found in db!!!")
-			fmt.Println("Please update stock basic first!!!")
-			return
-		}
+	if err := db.Table("stock_basics").Find(&stockList).Error; err != nil {
+		log.Fatal("Get stock basic data failed : ", err)
 	}
 	fmt.Printf("stockList is: %v !!!\n", stockList)
 	var checkPoints []CheckPoint
-	if err := db.Table("check_point").Find(&checkPoints).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			fmt.Println("No checkpoint data found in db!!!")
-		}
+	if err := db.Table("check_points").Find(&checkPoints).Error; err != nil {
+		fmt.Println("Get checkpoint data failed !!!")
 	}
 	fmt.Printf("checkPoints is: %v !!!\n", checkPoints)
+	/*
 	for _, stock := range stockList {
 		params["start_date"] = "19901219" //reset params["start_date"] to default start date
 		var checkPoint CheckPoint
@@ -181,6 +175,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			}
 		}
 	}
+	*/
 }
 
 // UpdateStockBasic update stock list
