@@ -13,9 +13,9 @@ func main() {
 	//init tushare account
 	api := tushare.New(tushare.TushareConfig.Token)
 	//update trade calendar of stock exchange
-	fmt.Println("start to update trade calendar")
+	fmt.Println("Start to update trade calendar")
 	tushare.UpdateTradeCal(db, api)
-	fmt.Println("update trade calendar finished")
+	fmt.Println("Update trade calendar finished")
 	/*
 	//update stock list of stock exchange (sse/szse)
 	fmt.Println("start to update stock list")

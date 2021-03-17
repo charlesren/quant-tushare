@@ -69,13 +69,20 @@ func UpdateTradeCal(db *gorm.DB, api *TuShare) {
 		} else {
 			fmt.Printf("Get last trade calendar day saved for %v error !!!\n", exchange)
 		}
-		startDate := tradeCal.CalDate
+		var startDate string
 		endDate := time.Now().Format("20060102")
 		params := make(Params)
 		fields := APIFullFields["trade_cal"]
 		params["exchange"] = exchange
-		params["start_date"] = startDate
 		params["end_date"] = endDate
+		if tradeCal.CalDate == endDate {
+			fmt.Printf("Trade calendar of %v is already up to date!!!\n", exchange)
+			continue
+		} else {
+			tempDate, _ := time.Parse("20060102", tradeCal.CalDate)
+			startDate = tempDate.AddDate(0, 0, 1).Format("20060102")
+		}
+		params["start_date"] = startDate
 		if startDate == endDate {
 			fmt.Printf("Trade calendar of %v is already up to date!!!\n", exchange)
 		} else {
