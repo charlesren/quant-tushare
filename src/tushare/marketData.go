@@ -108,7 +108,7 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 	params := make(Params)
 	endDate := time.Now().Format("20060102")
 	params["end_date"] = endDate
-	//fields := APIFullFields["daily"]
+	fields := APIFullFields["daily"]
 	stockList := []StockBasic{}
 	if err := db.Table("stock_basics").Find(&stockList).Error; err != nil {
 		log.Fatal("Get stock basic data failed : ", err)
@@ -119,7 +119,6 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 		fmt.Println("Get checkpoint data failed !!!")
 	}
 	fmt.Printf("checkPoints is: %v !!!\n", checkPoints)
-	/*
 	for _, stock := range stockList {
 		params["start_date"] = "19901219" //reset params["start_date"] to default start date
 		var checkPoint CheckPoint
@@ -148,34 +147,25 @@ func UpdateDaily(db *gorm.DB, api *TuShare) {
 			}
 			respData := []Daily{}
 			ParsingTushareData(resp, &respData, db)
-			fmt.Printf("Response data for %v is : %v\n", stock.TsCode, respData) // updata data
-			for _, iterData := range respData {
-				fmt.Printf("Updating %v\n", iterData)
-				db.Create(&iterData)
-			}
+			db.Create(respData)
+			log.Printf("Update daily data for %v successfully !!!\n", stock.TsCode)
 			// update checkPoint
 			lastDay := Daily{}
-			fmt.Printf("Get last daily data for %v !!!\n", stock.TsCode)
-			if err := db.Table("daily").Limit(1).Where("ts_code = ?", stock.TsCode).Order("trade_date desc").Find(&lastDay).Error; err != nil {
-				if err == gorm.ErrRecordNotFound {
-					fmt.Println("No checkpoint data found in db!!!")
-					checkPoint.Day = "19901219"
-				}
+			if err := db.Table("dailies").Limit(1).Where("ts_code = ?", stock.TsCode).Order("trade_date desc").Find(&lastDay).Error; err != nil {
+				fmt.Println("Get checkpoint data from db failed !!!")
+				checkPoint.Day = "19901219"
 			}
-			fmt.Printf("Last daily data for %v is : %v\n", stock.TsCode, lastDay)
 			if flag == 1 {
-				db.Delete(&checkPoint)
 				checkPoint.Day = lastDay.TradeDate
-				db.Create(&checkPoint)
-				log.Printf("Checkpoint: %v update successfully!!!\n", checkPoint)
+				db.Save(&checkPoint)
+				log.Printf("Update checkpoint: %v successfully !!!\n", checkPoint)
 			} else {
 				checkPoint.Item = stock.TsCode
 				db.Create(&checkPoint)
-				log.Printf("Checkpoint: %v create successfully!!!\n", checkPoint)
+				log.Printf("Create checkpoint: %v successfully !!!\n", checkPoint)
 			}
 		}
 	}
-	*/
 }
 
 // UpdateStockBasic update stock list

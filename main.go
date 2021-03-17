@@ -9,22 +9,19 @@ import (
 func main() {
 	//init database
 	db := config.GetDB()
-	fmt.Println(db)
 	//init tushare account
 	api := tushare.New(tushare.TushareConfig.Token)
 	//update trade calendar of stock exchange
 	fmt.Println("Start to update trade calendar")
 	tushare.UpdateTradeCal(db, api)
 	fmt.Println("Update trade calendar finished")
-	/*
 	//update stock list of stock exchange (sse/szse)
-	fmt.Println("start to update stock list")
+	fmt.Println("Start to update stock list")
 	tushare.UpdateStockBasic(db, api)
-	fmt.Println("update stock list finished")
+	fmt.Println("Update stock list finished")
 	//update daily exchange data
-	fmt.Println("start to update stock daily data")
+	fmt.Println("Start to update stock daily data")
 	tushare.UpdateDaily(db, api)
-	fmt.Println("update daily data finished")
-	*/
+	fmt.Println("Update daily data finished")
 
 }
